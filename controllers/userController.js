@@ -1,4 +1,13 @@
+const { ObjectID } = require('mongoose').Types;
 const { User } = require("../models");
+
+// Aggregate function to get the number of students overall
+const userCount = async () => {
+  const numberOfUsers = await User.aggregate()
+    .count('userCount');
+  return numberOfUsers;
+}
+
 
 module.exports = {
   async getUsers(req, res) {
