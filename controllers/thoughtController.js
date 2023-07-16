@@ -73,7 +73,7 @@ module.exports = {
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.thoughtId },
-        { $addToSet: { reactions: req.params.reactionId } },
+        { $addToSet: { reactionRoutes: req.params.reactionId } },
         { runValidators: true, new: true }
       );
 
@@ -92,7 +92,7 @@ module.exports = {
     try {
       const thought = await Thought.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { reactions: { reactionId: req.params.reactionId } } },
+        { $pull: { reactionRoutes: { reactionId: req.params.reactionId } } },
         { runValidators: true, new: true }
       );
 
@@ -107,6 +107,39 @@ module.exports = {
     } catch (err) {
       console.log(err)
       res.status(500).json(err);
+    }
+  },
+
+  async removeReactions(req, res) {
+    try {
+      const { thoughtId, reactionId } = req.params;
+      const updatedThought = await Thought.findByIdAndUpdate(
+        thoughtId,
+        { $pull: { reactionRoutes: { reactionId } } },
+        { new: true }
+      );
+      if (!updatedThought) {
+        return res.status(404).json({ message: "Thought not found" });
+      }
+      res.json(updatedThought);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Server Error" });
+    }
+  },
+  async getAllReactions(req, res) {
+    try {
+      const { thoughtId } = req.params;
+      // Find the thought by ID and populate the reactions field
+      const thought = await Thought.findById(thoughtId).populate("reactionRoutes");
+      if (!thought) {
+        return res.status(404).json({ message: "Thought not found" });
+      }
+      const reactionRoutes = thought.reactionRoutes;
+      res.json(reactionRoutes);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Server Error" });
     }
   },
 };
