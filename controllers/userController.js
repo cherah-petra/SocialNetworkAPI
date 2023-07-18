@@ -60,6 +60,27 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+  ////
+
+  async updateUser(req, res) {
+    try {
+      const { id } = req.params;
+      const { username, email } = req.body;
+      const updateUser = await User.findByIdAndUpdate(
+        id,
+        { username, email },
+        { new: true }
+      );
+      if (!updateUser) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(updateUser);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: "Server Error" });
+    }
+  },
+
   async addFriend(req, res) {
     try {
       const user = await User.findOneAndUpdate(

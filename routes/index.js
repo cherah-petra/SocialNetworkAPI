@@ -10,7 +10,7 @@ router.use("/api/thoughtRoutes", thoughtRoutes);
 router.use("/api/thoughts/:thoughtId/reactionRoutes", reactionRoutes);
 router.use("/api/users/:userId/friendRoutes", friendRoutes);
 
-router.use((req, res) => res.send("Wrong route!"));
+// router.use((req, res) => res.send("Wrong route!"));
 
 module.exports = router;
 
