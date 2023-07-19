@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../../models/user");
 
-router.post("/:id/friends", async (req, res) => {
+router.post("/:id/friendRoutes", async (req, res) => {
   try {
     const userId = req.params.userId;
     const { friendId } = req.body;
@@ -13,11 +13,11 @@ router.post("/:id/friends", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (user.friends.includes(friendId)) {
+    if (user.friendRoutes.includes(friendId)) {
       return res.status(400).json({ error: "User is already a friend" });
     }
 
-    user.friends.push(friendId);
+    user.friendRoutes.push(friendId);
     await user.save();
 
     res.status(201).json(user);
@@ -28,7 +28,7 @@ router.post("/:id/friends", async (req, res) => {
 });
 
 // Remove a friend
-router.delete("/:id/friends/:friendId", async (req, res) => {
+router.delete("/:id/friendRoutes/:friendId", async (req, res) => {
   try {
     const { userId, friendId } = req.params;
 
@@ -38,11 +38,11 @@ router.delete("/:id/friends/:friendId", async (req, res) => {
       return res.status(404).json({ error: "User not found" });
     }
 
-    if (!user.friends.includes(friendId)) {
+    if (!user.friendRoutes.includes(friendId)) {
       return res.status(400).json({ error: "User is not a friend" });
     }
 
-    user.friends = user.friends.filter(
+    user.friendRoutes = user.friendRoutes.filter(
       (friend) => friend.toString() !== friendId
     );
     await user.save();
