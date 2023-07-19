@@ -49,7 +49,6 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  // Update a course
   async updateThought(req, res) {
     try {
       const thought = await Thought.findOneAndUpdate(
@@ -71,21 +70,20 @@ module.exports = {
   },
   async addReaction(req, res) {
     try {
-      const thought = await Thought.findOneAndUpdate(
-        { _id: req.params.thoughtId },
-        { $addToSet: { reactionRoutes: req.params.reactionId } },
-        { runValidators: true, new: true }
+      const { thoughtId } = req.params;
+      const { reactionBody, username } = req.body;
+      const updatedThought = await Thought.findByIdAndUpdate(
+        thoughtId,
+        { $push: { reactions: { reactionBody, username } } },
+        { new: true }
       );
-
-      if (!thought) {
-        res.status(404).json({ message: "No thought found with that ID :(" });
-        return;
+      if (!updatedThought) {
+        return res.status(404).json({ message: "Thought not found" });
       }
-
-      res.status(200).json(thought);
+      res.status(201).json(updatedThought);
     } catch (err) {
-      console.log(err)
-      res.status(500).json(err);
+      console.error(err);
+      res.status(500).json({ message: "Server Error" });
     }
   },
   async removeFriend(req, res) {

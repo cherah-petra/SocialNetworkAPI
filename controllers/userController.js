@@ -60,11 +60,10 @@ module.exports = {
       res.status(500).json(err);
     }
   },
-  ////
 
   async updateUser(req, res) {
     try {
-      const { id } = req.params;
+      const id= req.params.userId;      
       const { username, email } = req.body;
       const updateUser = await User.findByIdAndUpdate(
         id,
