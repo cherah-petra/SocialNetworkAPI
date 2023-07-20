@@ -17,14 +17,18 @@ const userSchema = new mongoose.Schema(
         "Enter a valid email address.",
       ],
     },
-    thoughts: {
+    thoughts: [
+      {
       type: mongoose.Schema.Types.ObjectID,
-      ref: "thought",
-    },
-    friends: {
+      ref: "Thought",
+    }
+  ],
+    friends: [
+      {
       type: mongoose.Schema.Types.ObjectID,
       ref: "User",
-    },
+    }
+  ],
   },
   {
     toJSON: {

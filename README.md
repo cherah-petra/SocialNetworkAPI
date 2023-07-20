@@ -30,5 +30,5 @@ LICENSE.txt
 # Links
 
 - GitHub Repository: https://github.com/cherah-petra/SocialNetworkAPI
-- Video Demo: 
+- Video Demo: https://drive.google.com/file/d/17_onesHMrKJjeKkeYIuWKc4D3PjADox1/view 
 

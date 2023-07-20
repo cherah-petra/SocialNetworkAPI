@@ -11,7 +11,7 @@ const userCount = async () => {
 module.exports = {
   async getUsers(req, res) {
     try {
-      const users = await User.find();
+      const users = await User.find().select('-__v');
       res.status(200).json(users);
     } catch (err) {
       console.log(err);
@@ -102,7 +102,7 @@ module.exports = {
     try {
       const user = await User.findOneAndUpdate(
         { _id: req.params.userId },
-        { $pull: { friends: { friendId: req.params.friendId } } },
+        { $pull: { friends:  req.params.friendId } },
         { runValidators: true, new: true }
       );
 
